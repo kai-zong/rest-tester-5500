@@ -8,53 +8,53 @@
    - When the installer finishes, let it run the MSYS2 installation
    - In the MSYS2 prompt, press ENTER to install all default components
 
-### macOS/Linux
-1. Install Ruby using system package manager:
-   
-   **macOS:**
-   ```bash
-   brew install ruby
-   ```
-   
-   **Ubuntu/Debian:**
-   ```bash
-   sudo apt-get update
-   sudo apt-get install ruby-full
-   ```
-
-   **Fedora:**
-   ```bash
-   sudo dnf install ruby
-   ```
-
-## Verify Installation
-Open a new terminal/command prompt and verify Ruby is installed:
+### macOS Setup
+1. Install Homebrew if you haven't already:
 ```bash
-ruby -v
-```
-You should see output indicating Ruby version 3.x.x
-
-## Project Setup
-
-### Run the Server
-
-#### Windows
-```bash
-ruby server.rb
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-#### macOS/Linux
+2. Install Ruby through Homebrew:
+```bash
+brew install ruby
+```
+
+3. Add Ruby to your PATH by adding these lines to your `~/.zshrc`:
+```bash
+echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"' >> ~/.zshrc
+echo 'export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"' >> ~/.zshrc
+echo 'export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"' >> ~/.zshrc
+```
+
+4. Load the new configuration:
+```bash
+source ~/.zshrc
+```
+
+5. Verify the correct Ruby version is installed:
+```bash
+ruby -v    # Should show Ruby 3.3.x
+which ruby # Should show /opt/homebrew/opt/ruby/bin/ruby
+```
+
+### 1. Install Required Gems
+```bash
+gem install sinatra
+gem install json
+gem install webrick
+gem install rackup
+```
+
+
+### 2. Run the Server
+
+#### Windows/macOS/Linux
 ```bash
 ruby server.rb
 ```
 
 The server will start on port 5004. You should see output indicating the server is running.
-
-## Testing the Server
-You can test if the server is running by opening a web browser and navigating to (assume there exist users):
-```
-http://localhost:5004/users
-```
 
 ## Additional Notes
 - The server runs on port 5004. Please ensure this port is not in use by another application
@@ -66,12 +66,22 @@ http://localhost:5004/users
 
 ### Common Issues
 
+#### macOS Specific Issues
+1. If `ruby -v` shows version 2.6.x, you're using the system Ruby instead of Homebrew's Ruby
+   - Make sure you've added all the PATH exports to ~/.zshrc
+   - Open a new terminal window
+   - Run `which ruby` to verify it points to the Homebrew path
+
+2. If gem installation fails:
+   - Verify you're using Homebrew's Ruby with `which ruby`
+   - Make sure all PATH and compiler flags are set correctly
+
 #### Port Already in Use
 If you see an error about the port being in use:
 1. Either choose a different port by modifying the `set :port` line in server.rb
 2. Or find and stop the process using port 5004
 
-#### Gem Installation Errors on Windows
+#### Windows-Specific Issues
 If you encounter gem installation errors:
 1. Make sure you installed Ruby+Devkit version, not just Ruby
 2. Try running Command Prompt as Administrator
