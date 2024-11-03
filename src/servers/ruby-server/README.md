@@ -36,13 +36,7 @@ You should see output indicating Ruby version 3.x.x
 
 ## Project Setup
 
-### 1. Create Project Directory
-```bash
-mkdir ruby-server
-cd ruby-server
-```
-
-### 3. Run the Server
+### Run the Server
 
 #### Windows
 ```bash
@@ -57,7 +51,7 @@ ruby server.rb
 The server will start on port 5004. You should see output indicating the server is running.
 
 ## Testing the Server
-You can test if the server is running by opening a web browser and navigating to:
+You can test if the server is running by opening a web browser and navigating to (assume there exist users):
 ```
 http://localhost:5004/users
 ```
